@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Tulpep.NotificationWindow;
 
 namespace HelpKasia
 {
@@ -54,15 +55,28 @@ namespace HelpKasia
 
 
         }
-
+        public void PopUp(string tresc, int wielkosc = 100)
+        {
+            PopupNotifier popup = new PopupNotifier();
+            //if (tresc.Length > 30)
+            //{
+            //    tresc = tresc.Substring(tresc.Length - wielkosc);
+            //}
+            popup.TitleText = "Informacja";
+            popup.ContentText = tresc;
+            popup.Popup(); // show
+        }
         private void help_Click(object sender, EventArgs e)
         {
             var b = sender as Button;
             label1.Text = "wybrano " + b.Text;
+            string popText = b.Text;
             if (b != null)
             {
 
                 string zaw = File.ReadAllText(b.Text);
+                popText += zaw.Substring(0, 100);
+                PopUp(popText);
                 Clipboard.SetText(zaw);
                 if (chkZwin.Checked)
                 {
