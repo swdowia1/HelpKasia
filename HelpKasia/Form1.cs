@@ -14,36 +14,64 @@ namespace HelpKasia
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
             CreateButtons();
-            label1.Text = "";
+
 
 
         }
 
         private void CreateButtons()
         {
+            int buttonWidth = 100;
+            int buttonHeight = 30;
+            int padding = 10; // Odstęp między przyciskami
+            int buttonsPerRow = panel1.Width / (buttonWidth + padding);
             string ff = Environment.CurrentDirectory;
             string[] pliki = Directory.GetFiles(Environment.CurrentDirectory, "*.txt");
-            // Number of buttons to create (for example, 5 buttons)
-            int numberOfButtons = 5;
 
+            int lastI = 0;
             // Loop to create buttons
             for (int i = 0; i < pliki.Length; i++)
             {
-                // Create a new Button instance
+                lastI = i;
                 Button newButton = new Button();
                 var filename = Path.GetFileName(pliki[i]);
-                // Set button properties
+
                 newButton.Text = filename;
-                newButton.Name = "btnDynamic" + i; // Button name
-                newButton.Width = 100; // Button width
-                newButton.Height = 30; // Button height
-                newButton.Location = new System.Drawing.Point(i * 100, 0);
-                // Attach a common event handler for button clicks
+                newButton.Name = "btnDynamic" + i;
+                newButton.Width = buttonWidth;
+                newButton.Height = buttonHeight;
+
+                // Obliczenie pozycji wiersza i kolumny
+                int row = i / buttonsPerRow; // Określenie rzędu
+                int col = i % buttonsPerRow; // Określenie kolumny
+
+                newButton.Location = new System.Drawing.Point(col * (buttonWidth + padding), row * (buttonHeight + padding));
+
                 newButton.Click += help_Click;
 
                 // Add the button to the panel
                 panel1.Controls.Add(newButton);
             }
+            lastI++;
+            //zamykanie
+            Button newButton1 = new Button();
+
+
+            newButton1.Text = "Zamknij";
+            newButton1.Name = "btnDynamic";
+            newButton1.Width = buttonWidth;
+            newButton1.Height = buttonHeight;
+
+            // Obliczenie pozycji wiersza i kolumny
+            int row1 = lastI / buttonsPerRow; // Określenie rzędu
+            int col1 = lastI % buttonsPerRow; // Określenie kolumny
+
+            newButton1.Location = new System.Drawing.Point(col1 * (buttonWidth + padding), row1 * (buttonHeight + padding));
+
+            newButton1.Click += close_click;
+
+            // Add the button to the panel
+            panel1.Controls.Add(newButton1);
 
 
         }
@@ -69,7 +97,7 @@ namespace HelpKasia
         private void help_Click(object sender, EventArgs e)
         {
             var b = sender as Button;
-            label1.Text = "wybrano " + b.Text;
+
             string popText = b.Text;
             if (b != null)
             {
@@ -96,7 +124,7 @@ namespace HelpKasia
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void close_click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Czy na pewno zamknac", "Zamknac", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
