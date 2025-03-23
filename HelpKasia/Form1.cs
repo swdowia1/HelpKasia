@@ -103,7 +103,13 @@ namespace HelpKasia
             {
 
                 string zaw = File.ReadAllText(b.Text);
-                popText += zaw.Substring(0, 100);
+                if (zaw.Length > 300)
+                    popText += " " + zaw.Substring(0, 300);
+                else
+                {
+                    popText += " " + zaw;
+
+                }
                 PopUp(popText);
                 Clipboard.SetText(zaw);
                 if (chkZwin.Checked)

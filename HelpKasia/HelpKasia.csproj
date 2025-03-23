@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{06F20A40-9DF0-4C8A-ACD6-8BCB67169C35}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>HelpKasia</RootNamespace>
-    <AssemblyName>HelpKasia</AssemblyName>
+    <RootNamespace>ClipBoardHelp</RootNamespace>
+    <AssemblyName>ClipBoardHelp</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -68,6 +68,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
