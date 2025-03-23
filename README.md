@@ -1,6 +1,6 @@
 # HelpDoctor
 
-aplikacja pomocnicnacza do wklejania róznyc stałych tekstów np opis choroby
+aplikacja pomocnicza do wklejania róznyc stałych tekstów np opis choroby
 
 ## Opis
 
