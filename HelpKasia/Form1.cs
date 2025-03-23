@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
@@ -7,18 +8,52 @@ namespace HelpKasia
 {
     public partial class Form1 : Form
     {
-
+        private NotifyIcon trayIcon;
+        private ContextMenuStrip trayMenu;
         public Form1()
         {
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-
+            trayMenu = new ContextMenuStrip();
             CreateButtons();
 
+            // Tworzenie menu kontekstowego dla zasobnika
 
+            trayMenu.Items.Add("Otwórz", null, OnShowClicked);
+            trayMenu.Items.Add("Wyjście", null, close_click);
+
+            // Tworzenie ikony zasobnika
+            trayIcon = new NotifyIcon();
+            trayIcon.Text = "Moja aplikacja";
+            trayIcon.Icon = SystemIcons.Application;
+            trayIcon.ContextMenuStrip = trayMenu;
+            trayIcon.DoubleClick += OnShowClicked;
+
+            // Obsługa zdarzenia zamykania
+            this.Resize += OnResize;
 
         }
+        private void OnShowClicked(object sender, EventArgs e)
+        {
+            this.Show(); // Pokazuje okno
+            this.WindowState = FormWindowState.Normal;
+            trayIcon.Visible = false; // Ukrywa ikonę w trayu
+        }
 
+        private void OnExitClicked(object sender, EventArgs e)
+        {
+            trayIcon.Visible = false;
+            Application.Exit();
+        }
+
+        private void OnResize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Hide(); // Ukrywa okno
+                trayIcon.Visible = true; // Pokazuje ikonę w trayu
+            }
+        }
         private void CreateButtons()
         {
             int buttonWidth = 100;
@@ -48,7 +83,7 @@ namespace HelpKasia
                 newButton.Location = new System.Drawing.Point(col * (buttonWidth + padding), row * (buttonHeight + padding));
 
                 newButton.Click += help_Click;
-
+                trayMenu.Items.Add(filename, null, help_Click);
                 // Add the button to the panel
                 panel1.Controls.Add(newButton);
             }
@@ -98,26 +133,33 @@ namespace HelpKasia
         {
             var b = sender as Button;
 
-            string popText = b.Text;
-            if (b != null)
+            string popText = "";
+            if (sender is Button)
             {
-
-                string zaw = File.ReadAllText(b.Text);
-                if (zaw.Length > 300)
-                    popText += " " + zaw.Substring(0, 300);
-                else
-                {
-                    popText += " " + zaw;
-
-                }
-                PopUp(popText);
-                Clipboard.SetText(zaw);
-                if (chkZwin.Checked)
-                {
-                    this.WindowState = FormWindowState.Minimized;
-                }
-                //
+                Button button = (Button)sender;
+                popText = button.Text;
             }
+            else if (sender is ToolStripItem)
+            {
+                ToolStripItem textBox = (ToolStripItem)sender;
+                popText = textBox.Text;
+            }
+
+
+            string zaw = File.ReadAllText(popText);
+
+            PopUp(popText);
+            Clipboard.SetText(zaw);
+            if (chkZwin.Checked)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                PopUp(popText + " jest w tray");
+            }
+            else
+                PopUp(popText);
+            //this.WindowState = FormWindowState.Minimized;
+            //
+
         }
 
         private void label1_Click(object sender, EventArgs e)
