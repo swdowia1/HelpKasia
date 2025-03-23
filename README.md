@@ -14,5 +14,5 @@ zawrtosc jest zapisywana w plikach txt
 ## Inna opcja
 
 Jesli zaznaczymy "zwin do paska" to aplikacja przeniesie się do zasobnika
+![image](https://github.com/user-attachments/assets/65f4ecc3-f6d2-4815-9c53-d30987e63207)
 
-![image](https://github.com/user-attachments/assets/95375f06-3f3a-4306-940a-3aa0ac3e5fb6)
