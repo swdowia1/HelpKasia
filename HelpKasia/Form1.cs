@@ -107,8 +107,32 @@ namespace HelpKasia
 
             // Add the button to the panel
             panel1.Controls.Add(newButton1);
+            lastI++;
+            //zamykanie
+            Button newButton2 = new Button();
 
 
+            newButton2.Text = "Zwin";
+            newButton2.Name = "btnDynamic";
+            newButton2.Width = buttonWidth;
+            newButton2.Height = buttonHeight;
+
+            // Obliczenie pozycji wiersza i kolumny
+            int row2 = lastI / buttonsPerRow; // Określenie rzędu
+            int col2 = lastI % buttonsPerRow; // Określenie kolumny
+
+            newButton2.Location = new System.Drawing.Point(col2 * (buttonWidth + padding), row2 * (buttonHeight + padding));
+
+            newButton2.Click += zwin_click;
+
+            // Add the button to the panel
+            panel1.Controls.Add(newButton2);
+
+        }
+
+        private void zwin_click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
 
         private void Form1_Load(object sender, EventArgs e)
