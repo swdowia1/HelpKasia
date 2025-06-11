@@ -25,7 +25,17 @@ namespace HelpKasia
             // Tworzenie ikony zasobnika
             trayIcon = new NotifyIcon();
             trayIcon.Text = "Moja aplikacja";
-            trayIcon.Icon = SystemIcons.Application;
+           // trayIcon.Icon = new Icon("mozyczki.ico"); // ścieżka względna lub absolutna
+            try
+            {
+                trayIcon.Icon = new Icon("mozyczki.ico");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd ikony: " + ex.Message);
+            }
+            trayIcon.Visible = true;
+           // trayIcon.Icon = SystemIcons.Application;
             trayIcon.ContextMenuStrip = trayMenu;
             trayIcon.DoubleClick += OnShowClicked;
 
